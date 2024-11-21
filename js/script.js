@@ -33,50 +33,56 @@ btn.addEventListener("click", () => {
             
             list.insertAdjacentHTML("beforeend",
                 `
+                <div class='joke-div'>
                 <li>${data.value}</li>
-                <button class="btnEliminar">Eliminar</button>
+                <button class="eliminarChiste" onclick="deleteJoke()">X</button>
+                </div>
                 `
                 )       
             
             arrChiste.push(data.value);
             keepJokes();
-            btnEliminar.classList.remove('oculto');
+            hideButton();
 
         })
         
     })
 
-    const keepJokes = () => {
-        localStorage.setItem("chistesGuardados", JSON.stringify(arrChiste));
-    }
 
-    const getJokes = () => {
-        arrChiste.forEach(chiste => {
-            list.insertAdjacentHTML("beforeend",
-                `
-                <li>${chiste}</li>
-                <button class="btnEliminar">Eliminar</button>
-                `
-                )  
-        });
+const keepJokes = () => {
+    localStorage.setItem("chistesGuardados", JSON.stringify(arrChiste));
+}
+
+const getJokes = () => {
+    arrChiste.forEach(chiste => {
+        list.insertAdjacentHTML("beforeend",
+            `
+            <div class='joke-div'>
+            <li>${chiste}</li>
+            <button class="eliminarChiste" onclick="deleteJoke()">X</button>
+            </div>
+            `
+        )        
+     });
         
-    }
+}
 
+const deleteJokes = () => {
     btnEliminar.addEventListener('click', () => {
         list.innerHTML = '';
         localStorage.clear();
         btnEliminar.classList.add('oculto');
     })
+}
 
+const hideButton = () => {
     if(arrChiste.length === 0) {
         btnEliminar.classList.add('oculto')
     } else {
         btnEliminar.classList.remove('oculto');
     }
-    getJokes();
+}
 
-// - Manejador de click en el botón "Obtener Chiste"
-// - Una función para obtener un chiste de Chuck Norris desde la API --> jokesStorage
-// - Una función para renderizar la lista de chistes en el DOM
-// - Una función para guardar la lista de chistes en localStorage -->keepJokes
-// - Una función para cargar la lista de chistes desde localStorage -->getJokes
+getJokes();
+hideButton();
+deleteJokes();
